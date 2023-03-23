@@ -1,0 +1,91 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}	
+
+{% block titulo %}Publicar tutoría{%endblock%}
+{% block fotoPerfilNav%}{{info_usuario.0.foto.url}}{%endblock%}
+{% block MiPerfil%}{{user.email}}{%endblock%}
+{% block nombreNav%}{{user.username}}{%endblock%}
+{% block rolNav%}
+    {%if info_usuario.0.rol == 'E' %}
+        Estudiante
+    {%elif info_usuario.0.rol == 'P' %}
+        Profesor
+    {%elif info_usuario.0.rol == 'A' %}
+        Todo
+    {%endif%}
+
+{%endblock%}
+
+{% block contenido %}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-sub-header">
+                <h3 class="page-title">Registrar Tutoría</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Registrar Tutoría</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-2 col-lg-2"></div>
+    <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Registrar una nueva tutoría</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="#">
+                            <input type="hidden" name="" id="id_profesor" value="{{id_profesor}}">
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-2">Titulo</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="txbtitulo">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-2">Descripción</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="txbdescripcion">
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-2">File Input</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="file" name="Myarchivo" id="Myarchivo">
+                                </div>
+                            </div>
+
+                            <button type="button" onclick="publicarTutoria()" class="btn btn-primary">Registrar</button>
+                            
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<script  type="text/javascript" src="{% static '/js/utilidades.js' %}"></script>
+<script src="{% static '/js/publicarTutoria.js' %}"></script>
+{%endblock%}
+

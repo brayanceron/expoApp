@@ -1,0 +1,241 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block fotoPerfilNav%}{{info_usuario.0.foto.url}}{%endblock%}
+{% block MiPerfil%}{{user.email}}{%endblock%}
+{% block nombreNav%}{{user.username}}{%endblock%}
+{% block rolNav%}
+{%if info_usuario.0.rol == 'E' %}
+Estudiante
+{%elif info_usuario.0.rol == 'P' %}
+Profesor
+{%elif info_usuario.0.rol == 'A' %}
+Todo
+{%endif%}
+
+{%endblock%}
+
+
+{% block contenido %}
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-sub-header">
+                <h3 class="page-title">Student Details</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="students.html">Student</a></li>
+                    <li class="breadcrumb-item active">Student Details</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="about-info">
+                    <h4>Profile <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h4>
+                </div>
+                <div class="student-profile-head">
+                    <div class="profile-bg-img">
+                        <img src="{% static 'assets/img/profile-bg.jpg' %}" alt="Profile" >
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="profile-user-box">
+                                <div class="profile-user-img">
+                                    <img src="/api{{info_usuario.0.foto.url}}" alt="Profile" style="width: 150px;height: 150px; object-fit: cover;">
+                                    {%if user.email == info_usuario.0.correo%}
+                                    <div class="form-group students-up-files profile-edit-icon mb-0">
+                                        
+                                        <div class="uplod d-flex">
+                                            
+                                             
+                                            <label class="file-upload profile-upbtn mb-0">
+                                                <i class="feather-edit-3"></i><input type="file" accept="image/*" id="Myarchivo" oninput="cambiarFotoPerfil('{{info_usuario.0.correo}}')">
+                                            </label>
+                                            
+                                        </div>
+                                       
+                                    </div>
+                                    {%endif%}
+                                </div>
+                                <div class="names-profiles">
+                                    <h4>{{info_usuario.0.nombre}}</h4>
+                                    {% if info_usuario.0.rol == 'E' %}
+                                        <h5>Estudiante</h5>
+                                    {% elif info_usuario.0.rol == 'P' %}
+                                        <h5>Profesor</h5>
+                                    {%endif%}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-4 d-flex align-items-center">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="student-personals-grp">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="heading-detail">
+                                <h4>Personal Details :</h4>
+                            </div>
+                            <div class="personal-activity">
+                                <div class="personal-icons">
+                                    <i class="feather-user"></i>
+                                </div>
+                                <div class="views-personal">
+                                    <h4>Nombre</h4>
+                                    <h5>{{info_usuario.0.nombre}}</h5>
+                                </div>
+                            </div>
+
+                            <div class="personal-activity">
+                                <div class="personal-icons">
+                                    <i class="feather-phone-call"></i>
+                                </div>
+                                <div class="views-personal">
+                                    <h4>Mobile</h4>
+                                    <h5>{{info_usuario.0.telefono}}</h5>
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="personal-activity">
+                                <div class="personal-icons">
+                                    <i class="feather-mail"></i>
+                                </div>
+                                <div class="views-personal">
+                                    <h4>Email</h4>
+                                    <h5><a href="/web/perfil/{{info_usuario.0.correo}}" class="__cf_email__"
+                                            data-cfemail="81e5e0e8f2f8c1e6ece0e8edafe2eeec">{{info_usuario.0.correo}}</a>
+                                    </h5>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="personal-activity">
+                                <div class="personal-icons">
+                                    <i class="feather-user"></i>
+                                </div>
+                                <div class="views-personal">
+                                    <h4>Gender</h4>
+                                    <h5>Male</h5>
+                                </div>
+                            </div>
+                        -->
+
+                            <div class="personal-activity mb-0">
+                                <div class="personal-icons">
+                                    <i class="feather-map-pin"></i>
+                                </div>
+                                <div class="views-personal">
+                                    <h4>Address</h4>
+                                    <h5>{{info_usuario.0.direccion}}</h5>
+                                </div>
+                            </div>
+                            <div class="personal-activity mb-0">
+                                <div class="views-personal">
+                                    <div class="follow-btn-group">
+                                        {%if user.email == info_usuario.0.correo%}
+                                        <button type="button" class="btn btn-primary mt-1" data-bs-toggle="modal" data-bs-target="#signup-modal">Editar</button>
+                                        {%endif%}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-8">
+                <div class="student-personals-grp">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <div class="heading-detail">
+                                <h4>About Me</h4>
+                            </div>
+                            <div class="hello-park">
+                                <h5>Hello I am {{info_usuario.0.nombre}}</h5>
+                                <p>{{info_usuario.0.descripcion}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div id="signup-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="text-center mt-2 mb-4">
+                    <div class="auth-logo">
+                        <a href="#" class="logo logo-dark">
+                            <span class="logo-lg">
+                                <img src="{% static 'assets/img/logo.png'%}" alt="" height="42">
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <form class="px-3" action="#">
+                    <div class="mb-3">
+                        <label  class="form-label">Nombre</label>
+                        <input class="form-control" type="text" id="nombre" required="" value="{{info_usuario.0.nombre}}">
+                    </div>
+                    <div class="mb-3">
+                        <label  class="form-label">Teléfono</label>
+                        <input class="form-control" type="text" id="telefono" required="" value="{{info_usuario.0.telefono}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailaddress" class="form-label">Dirección</label>
+                        <input class="form-control" type="text" id="direccion" required="" value="{{info_usuario.0.direccion}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailaddress" class="form-label">Descripción</label>
+                        <textarea rows="5" cols="5" class="form-control" id="descripcion">{{info_usuario.0.descripcion}}</textarea>
+                    </div>
+
+                    
+                    <div class="mb-3 text-center">
+                        <button class="btn rounded-pill btn-warning" type="button" onclick="actualizarUsuario('{{info_usuario.0.correo}}')">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+{{info_usuario}}-->
+<script  type="text/javascript" src="{% static '/js/utilidades.js' %}"></script>
+<script src="{% static '/js/perfil.js' %}"></script>
+{%endblock%}
+
+
+
+
+
+
+
+
+
+
+
+

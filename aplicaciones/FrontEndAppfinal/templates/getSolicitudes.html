@@ -1,0 +1,190 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block fotoPerfilNav%}{{info_usuario.0.foto.url}}{%endblock%}
+{% block MiPerfil%}{{user.email}}{%endblock%}
+{% block nombreNav%}{{user.username}}{%endblock%}
+{% block rolNav%}
+    {%if info_usuario.0.rol == 'E' %}
+        Estudiante
+    {%elif info_usuario.0.rol == 'P' %}
+        Profesor
+    {%elif info_usuario.0.rol == 'A' %}
+        Todo
+    {%endif%}
+
+{%endblock%}
+
+
+{% block contenido %}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-sub-header">
+                <h3 class="page-title">Mis Solicitudes</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Mis Solicitudes</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="row">
+    <div class="col-1"></div>
+
+
+    
+    <div class="col-12 col-lg-12 col-xl-10">
+        <div class="col-md-12">
+            <div class="card bg-white">
+                <div class="card-header">
+                    <h5 class="card-title">Categorías</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded nav-justified">
+                        <li class="nav-item"><a class="nav-link {% if info_usuario.0.rol == 'E' %}active{% endif %}" href="#solid-rounded-justified-tab1"
+                                data-bs-toggle="tab">Mis solicitudes realizadas</a></li>
+                        <li class="nav-item"><a class="nav-link {% if info_usuario.0.rol == 'P' %}active{% endif %}" href="#solid-rounded-justified-tab2"
+                                data-bs-toggle="tab">Solicitudes para mi</a></li>
+                        
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane show {% if info_usuario.0.rol == 'E' %}active{% endif %}" id="solid-rounded-justified-tab1" style="background-color: rgb(247, 247, 250);">
+                            <br>
+                            
+                            <div class="container">
+                                <div class="row">
+                                    {% for t in solicitudes_estudiante %}
+                                    <div class="col-sm-6 col-lg-4 col-xl-3 d-flex" id="{{t.idn}}">
+                                        <div class="card invoices-grid-card w-100">
+                                            
+                                            <div class="card-middle" style="background-color: white;">
+                                                <h2 class="card-middle-avatar">
+                                                    <a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle"
+                                                            src="/api{{t.id_solicitante.0.foto.url}}"" alt="User Image"> {{t.id_solicitante.0.nombre}}</a>
+                                                </h2>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>Tu solicitud de unirte a "{{t.id_tutoria_publicada.0.nombre}}" esta en estado: <p id="lblcancelar{{t.idn}}">{{t.estado}}</p></p>
+                                                <!--
+                                                {% if  t.estado == 'RECHAZADA' or   t.estado == 'ACEPTADA' or   t.estado == 'CANCELADA' %}
+                                                    <button class="badge bg-warning" id="btnborrar{{t.idn}}" onclick="borrarSolicitud('{{t.idn}}','{{info_usuario.0.id_usuario_actual}}')">Borrar</button>
+                                               {% elif  t.estado == 'ESPERA' %}
+                                                    <button class="badge bg-danger-dark" id="btncancelar{{t.idn}}" onclick="cancelarSolicitud('{{t.idn}}','{{info_usuario.0.id_usuario_actual}}')">Cancelar</button>
+                                                {%endif%}
+                                            --> 
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row align-items-center">
+                                                    <div class="col-auto">
+                                                        {% if  t.estado == 'RECHAZADA' or   t.estado == 'ACEPTADA' or   t.estado == 'CANCELADA' %}
+                                                                <button class="badge badge-gradient-dark" id="btnborrar{{t.idn}}" onclick="borrarSolicitud('{{t.idn}}','{{info_usuario.0.id_usuario_actual}}')">Borrar</button>
+                                                        {% elif  t.estado == 'ESPERA' %}
+                                                                <button class="badge badge-gradient-primary" id="btncancelar{{t.idn}}" onclick="cancelarSolicitud('{{t.idn}}','{{info_usuario.0.id_usuario_actual}}')">Cancelar</button>
+                                                        {%endif%}
+                                                    </div>
+                                                </div>
+                                             </div>
+                                        </div>
+                                    </div>
+                                    {%endfor%}
+                                </div>
+                            </div>
+                            <!--{{solicitudes_estudiante}}-->
+                            <!---
+                            {% for t in tutorias_estudiante %}
+                                <div class="row">
+                                    <div class="col-1"></div>
+                                    <div class="col-xxl-10">
+                                        <div class="card">
+                                            <div class="card-header align-items-center d-flex" >
+                                                <h4 class="card-title mb-0">{{t.nombre}}</h4>
+                                            </div>
+
+                                            <div class="card-body">
+                                                <p class="text-muted">{{t.descripcion}}</p>
+                                                <p>Instructor: {{t.id_profesor.0.nombre}}</p>
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    <span class="badge bg-warning">Entrar</span>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+
+                                        </div>
+
+                                    </div>            
+                                </div>
+                            {%endfor%}
+                            -->
+                        </div>
+                        <div class="tab-pane show {% if info_usuario.0.rol == 'P' %}active{% endif %}" id="solid-rounded-justified-tab2" style="background-color: rgb(247, 247, 250);">
+                            <br>
+
+                            <div class="container">
+                                <div class="row">
+
+                                    {% for t in solicitudes_profesor %}
+                                    <div class="col-sm-6 col-lg-4 col-xl-3 d-flex" id="{{t.idn}}">
+                                        <div class="card invoices-grid-card w-100">
+                                            
+                                            <div class="card-middle" style="background-color: white;">
+                                                <h2 class="card-middle-avatar">
+                                                    <a href="profile.html"><img class="avatar avatar-sm me-2 avatar-img rounded-circle"
+                                                            src="/api{{t.id_solicitante.0.foto.url}}" alt="User Image"> {{t.id_solicitante.0.nombre}}</a>
+                                                </h2>
+                                            </div>
+                                            <div class="card-body">
+                                                El estidiante {{t.id_solicitante.0.nombre}} ha pedido unirse ala tutoría "{{t.id_tutoria_publicada.0.nombre}}"
+                                                <br>
+                                                <p id="lblestado{{t.idn}}">Estado: {{t.estado}}</p>
+                                                
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row align-items-center">
+                                                    <div class="col-auto">
+                                                        <button class="badge  badge-gradient-primary"  id="btnaceptar{{t.idn}}" onclick="aceptarSolicitud('{{t.idn}}','{{info_usuario.0.id_usuario_actual}}')">Aceptar</button>
+                                                        <button class="badge  badge-gradient-dark"   id="btnrechazar{{t.idn}}" onclick="rechazarSolicitud('{{t.idn}}','{{info_usuario.0.id_usuario_actual}}')">Rechazar</button>
+                                                    </div>
+                                                </div>
+                                             </div>
+                                        </div>
+                                    </div>
+                                    {%endfor%}
+    
+    
+                                    
+                                   
+                                    
+                                </div>
+                            </div>
+                            
+
+                            <!--{{solicitudes_profesor}}-->
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    
+</div>
+
+<!-- <hr>{{info_usuario}} -->
+
+<script  type="text/javascript" src="{% static '/js/utilidades.js' %}"></script>
+<script src="{% static '/js/getSolicitudes.js' %}"></script>
+{%endblock%}

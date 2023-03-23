@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+
+{% block MiPerfil%}{{user.email}}{%endblock%}
+{% block nombreNav%}{{user.username}}{%endblock%}
+{% block rolNav%}
+    {%if info_usuario.0.rol == 'E' %}
+        Estudiante
+    {%elif info_usuario.0.rol == 'P' %}
+        Profesor
+    {%elif info_usuario.0.rol == 'A' %}
+        Todo
+    {%endif%}
+
+{%endblock%}
+
+
+
+{% load static %}	
+
+
+
+{% block contenido %}
+<h1>getTutoria</h1>
+Nombre: {{json_response.0.nombre}}<br>
+Profesor: {{json_response.0.id_profesor.0.nombre}}<br>
+Descripcion: {{json_response.0.descripcion}}<br>
+<hr>
+{{json_response}}
+<hr>
+<input type="email" name="" id="txbemail">
+<input type="password" name="" id="txbpass">
+
+<button onclick="registrar()">Reistrar</button>
+
+
+
+{% endblock %}

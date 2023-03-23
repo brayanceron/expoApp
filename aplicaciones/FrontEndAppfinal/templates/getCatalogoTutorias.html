@@ -1,0 +1,91 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}	
+
+{% block titulo %}Tutorías{%endblock%}
+{% block fotoPerfilNav%}{{info_usuario.0.foto.url}}{%endblock%}
+{% block MiPerfil%}{{user.email}}{%endblock%}
+{% block nombreNav%}{{user.username}}{%endblock%}
+{% block rolNav%}
+    {%if info_usuario.0.rol == 'E' %}
+        Estudiante
+    {%elif info_usuario.0.rol == 'P' %}
+        Profesor
+    {%elif info_usuario.0.rol == 'A' %}
+        Todo
+    {%endif%}
+
+{%endblock%}
+
+{% block contenido %}
+<!--{{info_usuario}}-->
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-sub-header">
+                <h3 class="page-title">Tutorías Disponibles</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Tutorías Disponibles</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- OJO AQUI, PRIMERA BALIDACION DE ROL -->
+
+{% if info_usuario.0.rol != 'E'%}
+    <a href="/web/publicarTutoria/{{info_usuario.0.id_usuario_actual}}" class="btn btn-danger">Crear Tutoría</a> <!-- Esta opcion no deberia aparecer si el usuario no es profesor -->
+    
+{%endif%}
+<!--
+{% if info_usuario.0.rol == 'E'%}
+     <button class="btn btn-danger">Unirme a una tutoria</button><!-- Esta opcion no deberia aparecer si el usuario es estudiante 
+{%endif%}-->
+<br><br>
+<div class="row">
+    {% for t in json_response %}
+    <div class="col-12 col-md-6 col-lg-4 d-flex">
+        <div class="card flex-fill bg-white">
+            <img alt="Card Image" src="/api{{t.foto.url}}" id="imgpub" class="card-img-top imgpub">
+            <div class="card-header">
+                <h5 class="card-title mb-0"><a href="/web/getTutoriaPublicada/{{t.idn}}">{{t.nombre}}</a></h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{t.descripcion}}</p>
+                <p class="card-text">Tutor: <a href="/web/perfil/{{t.id_profesor.0.correo}}">{{t.id_profesor.0.nombre}}</a></p>
+                
+                {% if info_usuario.0.rol != "P" %}
+                <button class="btn btn-success btn-sm badge-gradient-success" onclick="btnInscribir(
+                    '{{info_usuario.0.id_usuario_actual}}',
+                    '{{t.idn}}',
+                    '{{t.id_profesorn}}')">Inscribirme!</button><!-- OJO, VERIFICAR QUE ESTE BOTON SOLO FUNCIONE PARA ESTUDIANTES Y NO PARA PROFESORES-->
+                {%endif%}
+                </div>
+        </div>
+    </div>     
+    {%endfor%}               
+</div>
+
+<!--{{json_response}}-->
+<hr>
+<!--{{info_usuario}}-->
+
+
+
+
+
+
+<style>
+    .imgpub {
+        width: 100%;
+        height: 100%;
+        max-height: 300px;
+        object-fit: scale-down;
+    }
+</style>
+
+
+<script  type="text/javascript" src="{% static '/js/utilidades.js' %}"></script>
+<script src="{% static '/js/getCatalogoTutorias.js' %}"></script>
+{%endblock%}
+

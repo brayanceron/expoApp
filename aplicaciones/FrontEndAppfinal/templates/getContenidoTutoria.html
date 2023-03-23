@@ -1,0 +1,183 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block fotoPerfilNav%}{{info_usuario.0.foto.url}}{%endblock%}
+{% block MiPerfil%}{{user.email}}{%endblock%}
+{% block nombreNav%}{{user.username}}{%endblock%}
+{% block rolNav%}
+    {%if info_usuario.0.rol == 'E' %}
+        Estudiante
+    {%elif info_usuario.0.rol == 'P' %}
+        Profesor
+    {%elif info_usuario.0.rol == 'A' %}
+        Todo
+    {%endif%}
+
+{%endblock%}
+
+
+{% block contenido %}
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-sub-header">
+                <h3 class="page-title">Panel Tutoría</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Panel Tutoría</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <a href="/web/registrarEntrada/{{info_tutoria.0.id_tutoria}}/{{info_tutoria.0.id_profesor}}"class="btn btn-danger">Crear Entrada</a> -->
+    <!--
+    <a href="/web/registrarEntrada/{{info_tutoria.0.id_tutoria}}" class="btn btn-danger">Crear Entrada</a>-->
+
+    <!--{{info_usuario.0.id_usuario_actual}}-->
+
+    
+
+    
+
+
+    <div class="row">
+        <div class="col-0  col-sm-0  col-md-2 col-lg-2 col-xl-2"></div>
+        <div class="col-12 col-lg-12 col-xl-8">
+            <div class="card flex-fill comman-shadow">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 dash-widget1">
+                            <div class="lesson-activity">
+                                <a href="/web/registrarEntrada/{{info_tutoria.0.id_tutoria}}" class="btn btn-danger">Crear Entrada</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-6">
+                            <div class="dash-details">
+                                
+                                <div class="lesson-activity">
+                                    <div class="lesson-imgs">
+                                        <img src="{% static 'assets/img/icons/lesson-icon-04.svg'%} " alt="">
+                                    </div>
+                                    <div class="views-lesson">
+                                        <h5>Identificador: </h5>
+                                        <h4>{{info_tutoria.0.id_tutoria}}</h4>
+                                    </div>
+                                </div>
+                                <div class="lesson-activity">
+                                    <div class="lesson-imgs">
+                                        <img src="{% static 'assets/img/icons/lesson-icon-05.svg'%} " alt="">
+                                    </div>
+                                    <div class="views-lesson">
+                                        <h5>Tutor: </h5>
+                                        <h4>{{info_tutoria.0.nombre_profesor}}</h4>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-2">
+                            <div class="dash-details">
+                                <div class="lesson-activity">
+                                    <div class="lesson-imgs">
+                                        <img src="{% static 'assets/img/icons/lesson-icon-01.svg'%}" alt="">
+                                    </div>
+                                    <div class="views-lesson">
+                                        <h5>Tutoría</h5>
+                                        <h4>{{info_tutoria.0.nombre}}</h4>
+                                    </div>
+                                </div>
+                                <div class="lesson-activity">
+                                    <div class="lesson-imgs">
+                                        <img src="{% static 'assets/img/icons/lesson-icon-02.svg'%} " alt="">
+                                    </div>
+                                    <div class="views-lesson">
+                                        <h5>Publicaciones: </h5>
+                                        <h4>{{contenido_tutoria|length}}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+    {% for t in contenido_tutoria %}
+    <div class="row">
+        <div class="col-0  col-sm-0  col-md-2 col-lg-2 col-xl-2"></div>
+        <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">{{t.titulo}}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <p style="font-size: 13px;  ">Por: {{t.id_profesor.0.nombre}} {{t.fecha_creacion}}</p>
+                        <p>{{t.descripcion}}</p>
+                        {%for a in t.archivos%}
+                            {% if a.extension == "jpg" or a.extension == "png" or a.extension == "jpeg" or a.extension == "gif" or a.extension == "jfif" or a.extension == "svg" or a.extension == "bmp" or a.extension == "tip" %}
+                            <div class="col-auto">
+                                <img src="/api{{a.url}}" class="imgpub" alt="work-thumbnail">
+                                
+                            </div>
+                            
+                            {% elif a.extension == "mp4" or a.extension == "wmv" or a.extension == "avi" or a.extension == "avchd"  or a.extension == "flv" or a.extension == "mkv" or a.extension == "webm" or a.extension == "f4v" or a.extension == "swf" or a.extension == "html5" %}
+                            <div class="col-auto">
+                                <video src="/api{{a.url}}" class="imgpub" controls></video>
+                            </div>
+                            {%endif%}
+                        {%endfor%}
+
+                        
+                        <div class="d-flex flex-wrap gap-2">
+                             <br>
+                            <a href="/web/getEntrada/{{t.idn}}"class="badge bg-warning badge-gradient-primary">Ver Archivos</a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    <p>Estudiantes: {{info_tutoria.0.id_estudiantes|length}}</p>
+
+
+
+
+    <!--{{info_tutoria}}
+    <hr>
+    {{contenido_tutoria}}-->
+
+
+
+
+
+
+<style>
+    .imgpub {
+        max-width: 225px;
+        height: 225px;
+        object-fit: scale-down;
+    }
+</style>
+
+
+{%endblock%}

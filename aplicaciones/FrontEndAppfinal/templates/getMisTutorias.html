@@ -1,0 +1,155 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block titulo %}Mis tutorías{%endblock%}
+{% block fotoPerfilNav%}{{info_usuario.0.foto.url}}{%endblock%}
+{% block MiPerfil%}{{user.email}}{%endblock%}
+{% block nombreNav%}{{user.username}}{%endblock%}
+{% block rolNav%}
+    {%if info_usuario.0.rol == 'E' %}
+        Estudiante
+    {%elif info_usuario.0.rol == 'P' %}
+        Profesor
+    {%elif info_usuario.0.rol == 'A' %}
+        Todo
+    {%endif%}
+
+{%endblock%}
+
+
+
+{% block contenido %}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-sub-header">
+                <h3 class="page-title">Mis Tutorías</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Mis Tutorías</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row">
+    <div class="col-1 "></div>
+
+    <div class="col-12 col-md-10 col-lg-10 col-xl-10">
+        <div class="col-10 col-sm-8 col-md-12 col-lg-12">
+            <div class="card bg-white">
+                <div class="card-header">
+                    <h5 class="card-title">Categorías</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded nav-justified">
+                        <li class="nav-item"><a class="nav-link {% if info_usuario.0.rol == 'E' %}active{% endif %}" href="#solid-rounded-justified-tab1"
+                                data-bs-toggle="tab">Mi Aprendizaje</a></li>
+                        <li class="nav-item"><a class="nav-link {% if info_usuario.0.rol == 'P' %}active{% endif %}" href="#solid-rounded-justified-tab2"
+                                data-bs-toggle="tab">Mis Tutorías Impartidas </a></li>
+                        <li class="nav-item"><a class="nav-link" href="#solid-rounded-justified-tab3"
+                                data-bs-toggle="tab">Mis Totiras Publicadas</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane show {% if info_usuario.0.rol == 'E' %}active{% endif %}" id="solid-rounded-justified-tab1" style="background-color: rgb(247, 247, 250);">
+                            <br>
+                            {% for t in tutorias_estudiante %}
+                                <div class="row">
+                                    <div class="col-1 col-sm-2 col-md-2 col-lg-1"></div>
+                                    <div class="col-sm-10 col-md-7 col-lg-7 col-xl-10">
+                                        <div class="card">
+                                            <div class="card-header align-items-center d-flex" >
+                                                <h4 class="card-title mb-0">{{t.nombre}}</h4>
+                                            </div>
+
+                                            <div class="card-body">
+                                                <p class="text-muted">{{t.descripcion}}</p>
+                                                <p>Instructor: {{t.id_profesor.0.nombre}}</p>
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    <a href="/web/getContenidoTutoria/{{t.idn}}"class="btn rounded-pill btn-success badge-gradient-primary">Ingresar</a>
+                                                </div>
+                                                
+                                            </div>
+
+                                        </div>
+
+                                    </div>            
+                                </div>
+                            {%endfor%}
+                            <!--{{tutorias_estudiante}}-->
+                        </div>
+                        <div class="tab-pane show {% if info_usuario.0.rol == 'P' %}active{% endif %}" id="solid-rounded-justified-tab2" style="background-color: rgb(247, 247, 250);">
+                            <br>
+                            
+                            {% for t in tutorias_profesor %}
+                                <div class="row">
+                                    <div class="col-1"></div>
+                                    <div class="col-xxl-10">
+                                        <div class="card">
+                                            <div class="card-header align-items-center d-flex" >
+                                                <h4 class="card-title mb-0">{{t.nombre}}</h4>
+                                            </div>
+
+                                            <div class="card-body">
+                                                <p class="text-muted">{{t.descripcion}}</p>
+                                                <p>Estado: {{t.estado}}</p>
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    <!--<span class="badge bg-warning">Entrar</span>-->
+                                                    <a href="/web/getContenidoTutoria/{{t.idn}}"class="btn rounded-pill btn-success badge-gradient-primary">Ingresar</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>            
+                                </div>
+                            {%endfor%}
+                            <!--{{tutorias_profesor}}-->
+                        </div>
+                        <div class="tab-pane" id="solid-rounded-justified-tab3" style="background-color: rgb(247, 247, 250);">
+                            <br>
+                            {% for t in tutorias_publicadas %}
+                                <div class="row">
+                                    <div class="col-1"></div>
+                                    <div class="col-xxl-10">
+                                        <div class="card">
+                                            <div class="card-header align-items-center d-flex" >
+                                                <h4 class="card-title mb-0">{{t.nombre}}</h4>
+                                            </div>
+
+                                            <div class="card-body">
+                                                <p class="text-muted">{{t.descripcion}}</p>
+                                                <p>Estado: {{t.estado}}</p>
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    <a href="/web/getTutoriaPublicada/{{t.idn}}"><span class="btn rounded-pill btn-success badge-gradient-info">Detalles</span></a>
+                                                    
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>            
+                                </div>
+                            {%endfor%}
+                            <!--{{tutorias_publicadas}}-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    
+</div>
+
+
+
+{%endblock%}
